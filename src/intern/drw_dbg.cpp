@@ -154,7 +154,6 @@ void print_debug::printB(int i){
 
 void print_debug::printHL(int c, int s, int h){
     std::cerr << c << '.' << s << '.';
-    std::cerr << "0x" << std::setw(2) << std::setfill('0');
     std::cerr << std::hex << h;
     std::cerr.flags(flags);
 }

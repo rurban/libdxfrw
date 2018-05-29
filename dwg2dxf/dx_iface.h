@@ -21,7 +21,7 @@ class dx_iface : public DRW_Interface {
 public:
     dx_iface(){dxfW = NULL;}
     ~dx_iface(){}
-    bool fileImport(const std::string& fileI, dx_data *fData);
+    bool fileImport(const std::string& fileI, dx_data *fData, bool debug);
     bool fileExport(const std::string& file, DRW::Version v, bool binary, dx_data *fData);
     void writeEntity(DRW_Entity* e);
 

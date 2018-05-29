@@ -31,16 +31,16 @@ bool dwgReader21::readMetaData() {
     DRW_DBG("maintenance verion= "); DRW_DBGH(maintenanceVersion);
     DRW_DBG("\nbyte at 0x0C= "); DRW_DBG(fileBuf->getRawChar8());
     previewImagePos = fileBuf->getRawLong32();
-    DRW_DBG("previewImagePos (seekerImageData) = "); DRW_DBG(previewImagePos);
+    DRW_DBG("\npreviewImagePos (seekerImageData) = "); DRW_DBG(previewImagePos);
     DRW_DBG("\n\napp writer version= "); DRW_DBGH(fileBuf->getRawChar8());
     DRW_DBG("\napp writer maintenance version= "); DRW_DBGH(fileBuf->getRawChar8());
     duint16 cp = fileBuf->getRawShort16();
     DRW_DBG("\ncodepage= "); DRW_DBG(cp);
     if (cp == 30)
         decoder.setCodePage("ANSI_1252", false);
-    /* UNKNOUWN SECTION 2 bytes*/
+    /* UNKNOWN SECTION 2 bytes*/
     DRW_DBG("\nUNKNOWN SECTION= "); DRW_DBG(fileBuf->getRawShort16());
-    DRW_DBG("\nUNKNOUWN SECTION 3b= "); DRW_DBG(fileBuf->getRawChar8());
+    DRW_DBG("\nUNKNOWN SECTION 3b= "); DRW_DBG(fileBuf->getRawChar8());
     duint32 secType = fileBuf->getRawLong32();
     DRW_DBG("\nsecurity type flag= "); DRW_DBGH(secType);
     /* UNKNOWN2 SECTION 4 bytes*/
@@ -204,15 +204,15 @@ bool dwgReader21::readFileHeader() {
     DRW_DBG("\nUnknown (normally 0xf800) = "); DRW_DBGH(fileHdrDataBuf.getRawLong64());
     DRW_DBG("\nUnknown (normally 4) = "); DRW_DBGH(fileHdrDataBuf.getRawLong64());
     DRW_DBG("\nUnknown (normally 1) = "); DRW_DBGH(fileHdrDataBuf.getRawLong64());
-    DRW_DBG("\nSectionsAmount (number of sections + 1) = "); DRW_DBGH(fileHdrDataBuf.getRawLong64());
+    DRW_DBG("\nSectionsAmount (number of sections + 1) = "); DRW_DBG(fileHdrDataBuf.getRawLong64());
     DRW_DBG("\nSectionsMapCrcUncompressed = "); DRW_DBGH(fileHdrDataBuf.getRawLong64());
     duint64 SectionsMapSizeCompressed = fileHdrDataBuf.getRawLong64();
-    DRW_DBG("\nSectionsMapSizeCompressed = "); DRW_DBGH(SectionsMapSizeCompressed);
+    DRW_DBG("\nSectionsMapSizeCompressed = "); DRW_DBG(SectionsMapSizeCompressed);
     DRW_DBG("\nSectionsMap2Id = "); DRW_DBG(fileHdrDataBuf.getRawLong64());
     duint64 SectionsMapId = fileHdrDataBuf.getRawLong64();
     DRW_DBG("\nSectionsMapId = "); DRW_DBG(SectionsMapId);
     duint64 SectionsMapSizeUncompressed = fileHdrDataBuf.getRawLong64();
-    DRW_DBG("\nSectionsMapSizeUncompressed = "); DRW_DBGH(SectionsMapSizeUncompressed);
+    DRW_DBG("\nSectionsMapSizeUncompressed = "); DRW_DBG(SectionsMapSizeUncompressed);
     DRW_DBG("\nSectionsMapCrcCompressed = "); DRW_DBGH(fileHdrDataBuf.getRawLong64());
     duint64 SectionsMapCorrectionFactor = fileHdrDataBuf.getRawLong64();
     DRW_DBG("\nSectionsMapCorrectionFactor = "); DRW_DBG(SectionsMapCorrectionFactor);

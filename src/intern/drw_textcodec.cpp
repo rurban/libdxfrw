@@ -477,14 +477,17 @@ std::string DRW_ExtConverter::convertByiconv(const char *in_encode,
     static char in_buf[BUF_SIZE], out_buf[BUF_SIZE];
 
     char *in_ptr = in_buf, *out_ptr = out_buf;
-    strncpy(in_buf, s->c_str(), BUF_SIZE);
+#if 0
+    strncpy(in_buf, s->c_str(), BUF_SIZE-1);
 
     iconv_t ic;
     ic = iconv_open(out_encode, in_encode);
     size_t il = BUF_SIZE-1, ol = BUF_SIZE-1;
     iconv(ic , &in_ptr, &il, &out_ptr, &ol);
     iconv_close(ic);
-
+#else
+    strncpy(out_buf, s->c_str(), BUF_SIZE-1);
+#endif
     return std::string(out_buf);
 }
 

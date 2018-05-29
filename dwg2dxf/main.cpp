@@ -23,8 +23,9 @@
 
 void usage(){
     std::cout << "Usage: " << std::endl;
-    std::cout << "   dwg2dxf <input> [-b] <-version> <output>" << std::endl << std::endl;
+    std::cout << "   dwg2dxf <input> [-d][-b] <-version> <output>" << std::endl << std::endl;
     std::cout << "   input      existing file to convert" << std::endl;
+    std::cout << "   -d         optional, debug" << std::endl;
     std::cout << "   -b         optional, sets output as binary dxf" << std::endl;
     std::cout << "   -B         optional, batch mode reads a text file whit a list of full path input" << std::endl;
     std::cout << "               files and saves with the same name in the indicated folder as output" << std::endl;
@@ -53,7 +54,7 @@ DRW::Version checkVersion(std::string param){
     return DRW::UNKNOWNV;
 }
 
-bool convertFile(std::string inName, std::string outName, DRW::Version ver, bool binary, bool overwrite){
+bool convertFile(std::string inName, std::string outName, DRW::Version ver, bool binary, bool overwrite, bool debug){
     bool badState = false;
     //verify if input file exist
     std::ifstream ifs;
@@ -86,7 +87,7 @@ bool convertFile(std::string inName, std::string outName, DRW::Version ver, bool
     dx_data fData;
     //First read a dwg or dxf file
     dx_iface *input = new dx_iface();
-    badState = input->fileImport( inName, &fData );
+    badState = input->fileImport( inName, &fData, debug );
     if (!badState) {
         std::cout << "Error reading file " << inName << std::endl;
         return false;
@@ -106,6 +107,7 @@ int main(int argc, char *argv[]) {
     bool binary = false;
     bool overwrite = false;
     bool batch = false;
+    bool debug = false;
     std::string outName;
     DRW::Version ver = DRW::UNKNOWNV;
     if (argc < 3) {
@@ -125,6 +127,8 @@ int main(int argc, char *argv[]) {
                     binary = true;
                 else if (param.at(1) == 'y')
                     overwrite = true;
+                else if (param.at(1) == 'd')
+                    debug = true;
                 else if (param.at(1) == 'B')
                     batch = true;
                 else {
@@ -145,7 +149,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (!batch){ //no batch mode, only one file
-        bool ok = convertFile(fileName, outName, ver, binary, overwrite);
+        bool ok = convertFile(fileName, outName, ver, binary, overwrite, debug);
         if (ok)
             return 0;
         else
@@ -188,7 +192,7 @@ int main(int argc, char *argv[]) {
         unsigned found = input.find_last_of("/\\");
         std::string output = outName + input.substr(found+1);
         std::cout << "Converting file " << input << " to " << output << std::endl;
-        bool ok = convertFile(input, output, ver, binary, overwrite);
+        bool ok = convertFile(input, output, ver, binary, overwrite, debug);
         if (!ok)
             std::cout << "Failed" << std::endl;
     }

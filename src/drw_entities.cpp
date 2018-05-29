@@ -197,7 +197,7 @@ bool DRW_Entity::parseDwg(DRW::Version version, dwgBuffer *buf, dwgBuffer* strBu
     oType = buf->getObjType(version);
     DRW_DBG("Object type: "); DRW_DBG(oType); DRW_DBG(", "); DRW_DBGH(oType);
 
-    if (version > DRW::AC1014 && version < DRW::AC1024) {//2000 & 2004
+    if (version > DRW::AC1014 && version < DRW::AC1024) {//2000 - 2007
         objSize = buf->getRawLong32();  //RL 32bits object size in bits
         DRW_DBG(" Object size: "); DRW_DBG(objSize); DRW_DBG("\n");
     }
@@ -222,10 +222,10 @@ bool DRW_Entity::parseDwg(DRW::Version version, dwgBuffer *buf, dwgBuffer* strBu
                 strDataSize = ((strDataSize&0x7fff) | (hiSize<<15));
             }
             strBuf->moveBitPos( -strDataSize -16); //-14
-            DRW_DBG("strBuf start strDataSize pos 2007: "); DRW_DBG(strBuf->getPosition()); DRW_DBG(" strBuf bpos 2007: "); DRW_DBG(strBuf->getBitPos()); DRW_DBG("\n");
+            DRW_DBG("strBuf strDataSize pos 2007: "); DRW_DBG(strBuf->getPosition()); DRW_DBG(" strBuf bpos 2007: "); DRW_DBG(strBuf->getBitPos()); DRW_DBG("\n");
         } else
             DRW_DBG("\nDRW_TableEntry::parseDwg string bit is 0");
-        DRW_DBG("strBuf start pos 2007: "); DRW_DBG(strBuf->getPosition()); DRW_DBG(" strBuf bpos 2007: "); DRW_DBG(strBuf->getBitPos()); DRW_DBG("\n");
+        DRW_DBG("\nstrBuf pos 2007: "); DRW_DBG(strBuf->getPosition()); DRW_DBG(" strBuf bpos 2007: "); DRW_DBG(strBuf->getBitPos()); DRW_DBG("\n");
     }
 
     dwgHandle ho = buf->getHandle();
@@ -236,7 +236,7 @@ bool DRW_Entity::parseDwg(DRW::Version version, dwgBuffer *buf, dwgBuffer* strBu
     while (extDataSize>0 && buf->isGood()) {
         /* RLZ: TODO */
         dwgHandle ah = buf->getHandle();
-        DRW_DBG("App Handle: "); DRW_DBGHL(ah.code, ah.size, ah.ref);
+        DRW_DBG("\nApp Handle: "); DRW_DBGHL(ah.code, ah.size, ah.ref);
         duint8 *tmpExtData = new duint8[extDataSize];
         buf->getBytes(tmpExtData, extDataSize);
         dwgBuffer tmpExtDataBuf(tmpExtData, extDataSize, buf->decoder);
@@ -338,7 +338,7 @@ bool DRW_Entity::parseDwg(DRW::Version version, dwgBuffer *buf, dwgBuffer* strBu
                 DRW_DBG("ltFlags: "); DRW_DBG(ltFlags);
                 DRW_DBG(" lineType: "); DRW_DBG(lineType.c_str());
             } else {
-                DRW_DBG(", plotFlags: "); DRW_DBG(plotFlags);
+              DRW_DBG(", plotFlags: "); DRW_DBG(plotFlags); DRW_DBG("\n");
             }
         }
     }
@@ -346,7 +346,7 @@ bool DRW_Entity::parseDwg(DRW::Version version, dwgBuffer *buf, dwgBuffer* strBu
         materialFlag = buf->get2Bits(); //BB
         DRW_DBG("materialFlag: "); DRW_DBG(materialFlag);
         shadowFlag = buf->getRawChar8(); //RC
-        DRW_DBG("shadowFlag: "); DRW_DBG(shadowFlag); DRW_DBG("\n");
+        DRW_DBG(", shadowFlag: "); DRW_DBG(shadowFlag); DRW_DBG("\n");
     }
     if (version > DRW::AC1021) {//2010+
         duint8 visualFlags = buf->get2Bits(); //full & face visual style
@@ -1846,8 +1846,8 @@ bool DRW_Hatch::parseDwg(DRW::Version version, dwgBuffer *buf, duint32 bs){
             DRW_DBG("\nunkDouble: "); DRW_DBG(unkDouble);
             duint16 unkShort = buf->getBitShort();
             DRW_DBG(" unkShort: "); DRW_DBG(unkShort);
-            dint32 rgbCol = buf->getBitLong();
-            DRW_DBG(" rgb color: "); DRW_DBG(rgbCol);
+            duint32 rgbCol = buf->getBitLong();
+            DRW_DBG(" rgb color: "); DRW_DBGH(rgbCol & 0xffffffff);
             duint8 ignCol = buf->getRawChar8();
             DRW_DBG(" ignored color: "); DRW_DBG(ignCol);
         }
@@ -1991,7 +1991,7 @@ bool DRW_Hatch::parseDwg(DRW::Version version, dwgBuffer *buf, duint32 bs){
 
     for (duint32 i = 0 ; i < totalBoundItems; ++i){
         dwgHandle biH = buf->getHandle();
-        DRW_DBG("Boundary Items Handle: "); DRW_DBGHL(biH.code, biH.size, biH.ref);
+        DRW_DBG("Boundary Items Handle: "); DRW_DBGHL(biH.code, biH.size, biH.ref); DRW_DBG(", ");
     }
     DRW_DBG("Remaining bytes: "); DRW_DBG(buf->numRemainingBytes()); DRW_DBG("\n");
 //    RS crc;   //RS */

@@ -146,7 +146,7 @@ bool dwgReader18::parseDataPage(dwgSectionInfo si/*, duint8 *dData*/){
         DRW_DBG("\n      header checksum= "); DRW_DBGH(bufHdr.getRawLong32());
         DRW_DBG("\n      data checksum= "); DRW_DBGH(bufHdr.getRawLong32()); DRW_DBG("\n");
 
-        //get compresed data
+        //get compressed data
         duint8 *cData = new duint8[pi.cSize];
         if (!fileBuf->setPosition(pi.address+32))
             return false;
@@ -209,7 +209,7 @@ bool dwgReader18::readFileHeader() {
         return false;
 
 //    genMagicNumber(); DBG("\n"); DBG("\n");
-    DRW_DBG("Encripted Header Data=\n");
+    DRW_DBG("Encrypted Header Data=\n");
     duint8 byteStr[0x6C];
     int size =0x6C;
     for (int i=0, j=0; i< 0x6C;i++) {
@@ -227,7 +227,7 @@ bool dwgReader18::readFileHeader() {
     DRW_DBG("\n");
 
 //    size =0x6C;
-    DRW_DBG("Decripted Header Data=\n");
+    DRW_DBG("Decrypted Header Data=\n");
     for (int i=0, j = 0; i< size;i++) {
         DRW_DBGH( (unsigned char)byteStr[i]);
         if (j == 15) {
@@ -455,9 +455,9 @@ bool dwgReader18::readDwgClasses(){
     }
     duint32 bitSize = 0;
     if (version > DRW::AC1021) {//2007+
-    bitSize = dataBuf.getRawLong32();
-    DRW_DBG("\ntotal size in bits "); DRW_DBG(bitSize);
-}
+      bitSize = dataBuf.getRawLong32();
+      DRW_DBG("\ntotal size in bits "); DRW_DBG(bitSize);
+    }
     duint32 maxClassNum = dataBuf.getBitShort();
     DRW_DBG("\nMaximum class number "); DRW_DBG(maxClassNum);
     DRW_DBG("\nRc 1 "); DRW_DBG(dataBuf.getRawChar8());
@@ -539,7 +539,7 @@ bool dwgReader18::readDwgClasses(){
 
 /*********** objects map ************************/
 /** Note: object map are split in sections with max size 2035?
- *  heach section are 2 bytes size + data bytes + 2 bytes crc
+ *  each section are 2 bytes size + data bytes + 2 bytes crc
  *  size value are data bytes + 2 and to calculate crc are used
  *  2 bytes size + data bytes
  *  last section are 2 bytes size + 2 bytes crc (size value always 2)

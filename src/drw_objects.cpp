@@ -91,14 +91,15 @@ DRW_DBG("\n***************************** parsing table entry *******************
         objSize = buf->getRawLong32();  //RL 32bits object size in bits
         DRW_DBG(" Object size: "); DRW_DBG(objSize); DRW_DBG("\n");
     }
-    if (version > DRW::AC1021) {//2010+
+    if (version >= DRW::AC1024) {//2010+
         duint32 ms = buf->size();
         objSize = ms*8 - bs;
+        DRW_DBG(" bs: "); DRW_DBG(bs);
         DRW_DBG(" Object size: "); DRW_DBG(objSize); DRW_DBG("\n");
     }
     if (strBuf != NULL && version > DRW::AC1018) {//2007+
         strBuf->moveBitPos(objSize-1);
-        DRW_DBG(" strBuf strbit pos 2007: "); DRW_DBG(strBuf->getPosition()); DRW_DBG(" strBuf bpos 2007: "); DRW_DBG(strBuf->getBitPos()); DRW_DBG("\n");
+        DRW_DBG(" strBuf pos 2007: "); DRW_DBG(strBuf->getPosition()); DRW_DBG(", strBuf bpos 2007: "); DRW_DBG(strBuf->getBitPos()); DRW_DBG("\n");
         if (strBuf->getBit() == 1){
             DRW_DBG("DRW_TableEntry::parseDwg string bit is 1\n");
             strBuf->moveBitPos(-17);
@@ -111,10 +112,10 @@ DRW_DBG("\n***************************** parsing table entry *******************
                 strDataSize = ((strDataSize&0x7fff) | (hiSize<<15));
             }
             strBuf->moveBitPos( -strDataSize -16); //-14
-            DRW_DBG("strBuf start strDataSize pos 2007: "); DRW_DBG(strBuf->getPosition()); DRW_DBG(" strBuf bpos 2007: "); DRW_DBG(strBuf->getBitPos()); DRW_DBG("\n");
+            DRW_DBG("strBuf start strDataSize pos 2007: "); DRW_DBG(strBuf->getPosition()); DRW_DBG(", strBuf bpos 2007: "); DRW_DBG(strBuf->getBitPos()); DRW_DBG("\n");
         } else
             DRW_DBG("\nDRW_TableEntry::parseDwg string bit is 0");
-        DRW_DBG("strBuf start pos 2007: "); DRW_DBG(strBuf->getPosition()); DRW_DBG(" strBuf bpos 2007: "); DRW_DBG(strBuf->getBitPos()); DRW_DBG("\n");
+        DRW_DBG("\nstrBuf start pos 2007: "); DRW_DBG(strBuf->getPosition()); DRW_DBG(", strBuf bpos 2007: "); DRW_DBG(strBuf->getBitPos()); DRW_DBG("\n");
     }
 
     dwgHandle ho = buf->getHandle();
@@ -523,7 +524,7 @@ bool DRW_LType::parseDwg(DRW::Version version, dwgBuffer *buf, duint32 bs){
     }
 
     if (version > DRW::AC1021) {//2007+ skip string area
-        DRW_DBG(" ltype end of object data pos 2010: "); DRW_DBG(buf->getPosition()); DRW_DBG(" strBuf bpos 2007: "); DRW_DBG(buf->getBitPos()); DRW_DBG("\n");
+        DRW_DBG(" ltype end of object data pos 2010: "); DRW_DBG(buf->getPosition()); DRW_DBG(", strBuf bpos 2007: "); DRW_DBG(buf->getBitPos()); DRW_DBG("\n");
     }
     if (version > DRW::AC1018) {//2007+ skip string area
         buf->setPosition(objSize >> 3);

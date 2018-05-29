@@ -189,7 +189,7 @@ duint64 dwgBuffer::getPosition(){
 /**Sets the buffer position in pos byte, reset the bit position **/
 bool dwgBuffer::setPosition(duint64 pos){
     bitPos = 0;
-/*    if (pos>=maxSize)
+/*    if (pos>maxSize)
         return false;*/
     return filestr->setPos(pos);
 //    return true;
@@ -500,12 +500,12 @@ dint32 dwgBuffer::getModularChar(){
     return result;
 }
 
-/**Reads modular int, short based, compresed form, little-endian order, returns a unsigned int (MC) **/
+/**Reads modular int, short based, compressed form, little-endian order, returns a unsigned int (MC) **/
 dint32 dwgBuffer::getModularShort(){
 //    bool negative = false;
     std::vector<dint16> buffer;
     dint32 result =0;
-    for (int i=0; i<2;i++){
+    for (int i=0; i<2; i++){
         duint16 b= getRawShort16();
         buffer.push_back(b & 0x7FFF);
         if (! (b & 0x8000))
@@ -521,7 +521,7 @@ dint32 dwgBuffer::getModularShort(){
     }*/
 
     int offset = 0;
-    for (unsigned int i=0; i<buffer.size();i++){
+    for (unsigned int i=0; i<buffer.size(); i++){
         result += buffer[i] << offset;
         offset +=15;
     }

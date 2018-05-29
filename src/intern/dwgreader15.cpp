@@ -28,6 +28,7 @@ bool dwgReader15::readMetaData() {
         return false;
     previewImagePos = fileBuf->getRawLong32();
     DRW_DBG("previewImagePos (seekerImageData) = "); DRW_DBG(previewImagePos);
+    /* rurben: this is wrong. it really is 2 byte for dwg_ver and maint_ver */
     /* MEASUREMENT system variable 2 bytes*/
     duint16 meas = fileBuf->getRawShort16();
     DRW_DBG("\nMEASUREMENT (0 = English, 1 = Metric)= "); DRW_DBG(meas);

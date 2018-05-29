@@ -17,7 +17,7 @@
 #include "libdxfrw.h"
 
 
-bool dx_iface::fileImport(const std::string& fileI, dx_data *fData){
+bool dx_iface::fileImport(const std::string& fileI, dx_data *fData, bool debug){
     unsigned int found = fileI.find_last_of(".");
     std::string fileExt = fileI.substr(found+1);
     std::transform(fileExt.begin(), fileExt.end(),fileExt.begin(), ::toupper);
@@ -33,6 +33,8 @@ bool dx_iface::fileImport(const std::string& fileI, dx_data *fData){
     } else if (fileExt == "DWG"){
         //loads dwg
         dwgR* dwg = new dwgR(fileI.c_str());
+        if (debug)
+          dwg->setDebug(DRW::DEBUG);
         bool success = dwg->read(this, false);
         delete dwg;
         return success;
