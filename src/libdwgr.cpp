@@ -201,6 +201,9 @@ bool dwgR::openFile(std::ifstream *filestr){
     }else if (strcmp(line, "AC1012") == 0){
         version = DRW::AC1012;
         reader = new dwgReader15(filestr, this);
+    }else if (strcmp(line, "AC1013") == 0){
+        version = DRW::AC1013;
+        reader = new dwgReader15(filestr, this);
     } else if (strcmp(line, "AC1014") == 0) {
         version = DRW::AC1014;
         reader = new dwgReader15(filestr, this);
